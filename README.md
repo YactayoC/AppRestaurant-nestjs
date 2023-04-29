@@ -18,12 +18,12 @@ Yarn or Npm
 ## **Installation** 🔧
 1. Clone the repository
 ```bash
-git clone https://github.com/usuario/nombre-del-proyecto.git
+git clone https://github.com/YactayoC/AppRestaurant-nestjs.git
 ```
 
 2. Enter the project folder
 ```bash
-cd nombre-del-proyecto
+cd app-restaurant
 ```
 
 3. Install the dependencies
