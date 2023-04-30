@@ -5,16 +5,22 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 import { LoginDto } from '../common/dto/login.dto';
 import { RegisterDto } from '../common/dto/register.dto';
 import { UserService } from 'src/user/user.service';
 import { ClientService } from 'src/client/client.service';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService, private readonly clientService: ClientService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly clientService: ClientService,
+    private readonly jwtService: JwtService
+  ) {}
 
   async registerClient(registerDto: RegisterDto) {
     const hassedPassword = await bcrypt.hash(registerDto.password, 10);
@@ -50,7 +56,7 @@ export class AuthService {
         throw new NotFoundException('Client not found');
       }
 
-      if (user.state === 'inactive' || user.isConfirm === false) {
+      if (!user.isActive || !user.isConfirmed) {
         throw new UnauthorizedException('User is inactive or not confirmed, please check your email');
       }
 
@@ -58,15 +64,17 @@ export class AuthService {
         throw new UnauthorizedException('Invalid credentials');
       }
 
-      return { client };
+      return { client, token: this.getJwtToken({ id: user._id }) };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
   }
 
-  //TODO: agregar para confirmar cuenta y olvide contraseña
-
   private async comparePassword(password: string, hash: string): Promise<boolean> {
     return bcrypt.compareSync(password, hash);
+  }
+
+  private getJwtToken(payload: JwtPayload) {
+    return this.jwtService.sign(payload);
   }
 }
