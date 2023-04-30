@@ -6,7 +6,7 @@ import { User } from 'src/user/entities/user.entity';
 
 @Schema({ timestamps: true, versionKey: false })
 export class Client {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   fullname: string;
 
   @Prop({ default: null })

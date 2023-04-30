@@ -21,7 +21,6 @@ export class AuthService {
 
     try {
       const existingUser = await this.userService.findOne(registerDto.email);
-
       if (existingUser) {
         throw new BadRequestException('User already exists');
       }
@@ -32,7 +31,7 @@ export class AuthService {
         fullname: registerDto.fullname,
       });
 
-      return createdUser;
+      return { createdUser, message: 'User created successfully, please check your email' };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
@@ -41,10 +40,14 @@ export class AuthService {
   async loginClient(loginDto: LoginDto) {
     try {
       const user = await this.userService.findOne(loginDto.email);
-      const client = await this.clientService.findOne(user._id);
 
-      if (!client || !user) {
+      if (!user) {
         throw new NotFoundException('User not found');
+      }
+
+      const client = await this.clientService.findOne(user._id);
+      if (!client) {
+        throw new NotFoundException('Client not found');
       }
 
       if (user.state === 'inactive' || user.isConfirm === false) {

@@ -25,7 +25,7 @@ export class ClientService {
 
   async findOne(id: string) {
     try {
-      const client = await this.clientModel.findOne({ user: id }).populate('user');
+      const client = await this.clientModel.findOne({ user: id }).populate({ path: 'user', select: '-password' });
 
       if (!client) {
         throw new NotFoundException('Client not found');

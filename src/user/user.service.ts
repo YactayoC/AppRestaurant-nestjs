@@ -25,7 +25,7 @@ export class UserService {
   }
 
   async findOne(term: string) {
-    let user: User;
+    let user: User | null = null;
 
     try {
       if (!user && isValidObjectId(term)) {
@@ -36,9 +36,9 @@ export class UserService {
         user = await this.userModel.findOne({ email: term.trim() });
       }
 
-      if (!user) {
-        throw new NotFoundException(`User with term '${term}' not found`);
-      }
+      // if (!user) {
+      //   throw new NotFoundException(`User not found`);
+      // }
 
       return user;
     } catch (error) {
