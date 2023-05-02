@@ -28,7 +28,7 @@ export class AuthService {
     try {
       const existingUser = await this.userService.findOne(registerDto.email);
       if (existingUser) {
-        throw new BadRequestException('User already exists');
+        throw new BadRequestException('El usuario ya existe');
       }
 
       const createdUser = await this.userService.create({ ...registerDto, password: hassedPassword });
@@ -37,7 +37,7 @@ export class AuthService {
         fullname: registerDto.fullname,
       });
 
-      return { createdUser, message: 'User created successfully, please check your email' };
+      return { createdUser, message: 'Usuario creado correctamente, porfavor verifique su email' };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
@@ -48,20 +48,20 @@ export class AuthService {
       const user = await this.userService.findOne(loginDto.email);
 
       if (!user) {
-        throw new NotFoundException('User not found');
+        throw new NotFoundException('Usuario no encontrado');
       }
 
       const client = await this.clientService.findOne(user._id);
       if (!client) {
-        throw new NotFoundException('Client not found');
+        throw new NotFoundException('Cliente no encontrado');
       }
 
       if (!user.isActive || !user.isConfirmed) {
-        throw new UnauthorizedException('User is inactive or not confirmed, please check your email');
+        throw new UnauthorizedException('Usuario inactivo o no confirmado, porfavor verifique su email');
       }
 
       if ((await this.comparePassword(loginDto.password, user.password)) === false) {
-        throw new UnauthorizedException('Invalid credentials');
+        throw new UnauthorizedException('Credenciales incorrectas');
       }
 
       return { client, token: this.getJwtToken({ id: user._id }) };
