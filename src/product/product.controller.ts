@@ -24,6 +24,11 @@ export class ProductController {
     return this.productService.findOne(term);
   }
 
+  @Get('categories/all')
+  findAllCategories() {
+    return this.productService.findAllCategories();
+  }
+
   @Patch(':term')
   update(@Param('term') term: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(term, updateProductDto);

@@ -47,6 +47,14 @@ export class ProductService {
     }
   }
 
+  async findAllCategories() {
+    const products = await this.findAll();
+    const categories = [...new Set(products.map((product) => product.category))];
+    const productImages = [...new Set(products.map((product) => product.image))];
+    const categoriesWithImages = categories.map((category) => ({ category, image: productImages[0] }));
+    return categoriesWithImages;
+  }
+
   async update(term: string, updateProductDto: UpdateProductDto) {
     const product = await this.findOne(term);
 
