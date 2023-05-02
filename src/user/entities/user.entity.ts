@@ -9,14 +9,14 @@ export class User extends Document {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ default: 'inactive' })
-  state: string;
+  @Prop({ default: false })
+  isActive: boolean;
 
   @Prop({ default: () => Date.now() + '-' + Math.random().toString(36).substring(2, 8) })
   key: string;
 
   @Prop({ default: false })
-  isConfirm: boolean;
+  isConfirmed: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

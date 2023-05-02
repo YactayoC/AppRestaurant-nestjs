@@ -50,7 +50,7 @@ export class UserService {
     try {
       const user = await this.findOne(term);
 
-      if (user.state === 'inactive') {
+      if (!user.isActive) {
         throw new NotFoundException(`User with email '${updateUserDto.email}' is inactive`);
       }
 
@@ -64,7 +64,7 @@ export class UserService {
     const user = await this.findOne(id);
 
     try {
-      if (user.state === 'active') {
+      if (user.isActive) {
         await user.updateOne({ state: 'inactive' });
       }
 

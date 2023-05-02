@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsIn, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -12,8 +12,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  @IsIn(['active', 'inactive'])
-  state?: string;
+  isActive?: boolean;
 
   @IsString()
   @IsOptional()
@@ -21,5 +20,5 @@ export class CreateUserDto {
 
   @IsBoolean()
   @IsOptional()
-  isConfirm?: boolean;
+  isConfirmed?: boolean;
 }
