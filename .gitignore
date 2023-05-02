@@ -4,6 +4,7 @@
 /mongo
 
 .env
+/test
 
 # Logs
 logs
