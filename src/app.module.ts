@@ -7,6 +7,7 @@ import { EmployeeModule } from './employee/employee.module';
 import { ProductModule } from './product/product.module';
 import { ClientModule } from './client/client.module';
 import { AuthModule } from './auth/auth.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
     ProductModule,
     ClientModule,
     AuthModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],
