@@ -15,6 +15,9 @@ export class Client {
   @Prop({ default: null })
   phone: string;
 
+  @Prop({ default: null })
+  profile: string;
+
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   user: User;
 

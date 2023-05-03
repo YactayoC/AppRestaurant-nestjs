@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsArray } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsArray, IsUrl } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Types } from 'mongoose';
 
@@ -19,6 +19,11 @@ export class CreateClientDto {
   @IsNotEmpty()
   @IsOptional()
   phone?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsUrl()
+  profile?: string;
 
   @IsNotEmpty()
   user: Types.ObjectId | CreateUserDto;
